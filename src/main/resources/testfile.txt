@@ -1,0 +1,38 @@
+[
+  {
+    "fullName": "Alice Anderson",
+    "age": 20,
+    "gender": "female",
+    "phoneNumber": "123-456-7890"
+  },
+  {
+    "fullName": "Bob Brown",
+    "age": 17,
+    "gender": "male",
+    "phoneNumber": "234-567-8901"
+  },
+  {
+    "fullName": "Charlie Adams",
+    "age": 22,
+    "gender": "male",
+    "phoneNumber": "345-678-9012"
+  },
+  {
+    "fullName": "David Smith",
+    "age": 25,
+    "gender": "male",
+    "phoneNumber": "456-789-0123"
+  },
+  {
+    "fullName": "Amy Acker",
+    "age": 19,
+    "gender": "female",
+    "phoneNumber": "567-890-1234"
+  },
+  {
+    "fullName": "Angela Anson",
+    "age": 30,
+    "gender": "female",
+    "phoneNumber": "678-901-2345"
+  }
+]
