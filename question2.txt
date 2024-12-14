@@ -118,6 +118,12 @@ for (int number : numbers) {
 7) StreamAPI forEach
 - позволяет нам выполнить дейтсвие для каждого элемента потока
 
+псевдокод:
+stream.forEach(action);
+
+- этот метод есть терминальная операция => завершение обработки потока
+- после вызова forEach дальнейшее использование потока невозможно
+
 пример:
 List<String> names = Arrays.asList("Vika", "Ida", "Sonya");
 names.stream().forEach(name -> System.out.println(name));
