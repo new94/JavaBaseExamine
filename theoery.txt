@@ -1,0 +1,145 @@
+1. Коллекции Java. Иерархия классов и интерфейсов для коллекций. Примеры.
+Коллекции в Java - это набор классов и интерфейсов, которые предоставляют функциональность для хранения, извлечения и манипуляции с данными. Коллекции в Java представляют собой иерархию интерфейсов и классов, которая организована через несколько ключевых интерфейсов.
+
+1.1 Основные интерфейсы коллекций
+
+-`Collection<E> — это общий интерфейс для коллекций.
+  Он наследуется от `Iterable` и предоставляет основные методы для работы с элементами коллекции, такие как: add, remove size, isEmpty, clear
+
+  Collection<String> collection = new ArrayList<>();
+  collection.add("apple");
+  collection.add("banana");
+  System.out.println(collection.size());
+
+- List<E>`— интерфейс. Упорядоченная коллекция, которая могут содержать дубликаты элементов: ArrayList, Vector.
+
+  List<String> list = new ArrayList<>();
+  list.add("apple");
+  list.add("banana");
+  list.add("apple");
+  System.out.println(list); // Выведет [apple, banana, apple]
+
+- Set<E> — интерфейс для коллекций, которые не допускают дубликатов: HashSet, LinkedHashSet, TreeSet.
+
+  Set<String> set = new HashSet<>();
+  set.add("apple");
+  set.add("banana");
+  set.add("apple"); // Дубликаты не добавляются
+  System.out.println(set); // Выведет [banana, apple]
+
+- Map<K, V> — интерфейс, представлябщий коллекции, состоящие из пар key-value: `HashMap, TreeMap, LinkedHashMap.
+
+  Map<String, Integer> map = new HashMap<>();
+  map.put("apple", 1);
+  map.put("banana", 2);
+  System.out.println(map.get("apple"));
+
+1.2. Основные классы коллекций
+
+- ArrayList<E> — реализует интерфейс List.
+Это динамический массив, который позволяет хранить элементы в порядке добавления, поддерживает дубликаты и быстрый доступ по индексу
+
+  List<String> list = new ArrayList<>();
+  list.add("one");
+  list.add("two");
+  System.out.println(list.get(0)); // Выведет "one"
+
+- LinkedList<E> — также реализует интерфейс List и Queue.
+В отличие от ArrayList, использует двусвязный список для хранения элементов (ползно для частых вставок и удалений элементов)
+
+  List<String> list = new LinkedList<>();
+  list.add("one");
+  list.add("two");
+  list.addFirst("zero"); // Вставка в начало списка
+  System.out.println(list); // Выведет [zero, one, two]
+
+- HashMap<K, V> — реализует интерфейс Map, использует хеш-таблицу для хранения пар ключ-значение.
+Быстрые операции добавления, поиска и удаления по ключу.
+
+  Map<String, Integer> map = new HashMap<>();
+  map.put("apple", 1);
+  map.put("banana", 2);
+  System.out.println(map.get("apple")); // Выведет 1
+
+- TreeMap<K, V> — также реализует интерфейс Map, но хранит элементы в отсортированном порядке по ключу.
+
+  Map<String, Integer> map = new TreeMap<>();
+  map.put("apple", 1);
+  map.put("banana", 2);
+  map.put("cherry", 3);
+  System.out.println(map); // Выведет {apple=1, banana=2, cherry=3}
+
+- SortedSet<E> — расширяет `Set` и гарантирует, что элементы будут отсортированы реализуют такие классы, как TreeSet.
+- SortedMap<K, V> — расширяет Map и гарантирует сортировку элементов по ключу. Это интерфейс, реализует TreeMap.
+- Deque<E> — расширяет Queue и представляет собой коллекцию, которая поддерживает добавление и извлечение элементов как с начала, так и с конца, реализует LinkedList.
+
+
+2. Многопоточность. Пуллы потоков. ExecutorService. Executors.
+
+Многопоточность — это способность программы выполнять несколько задач одновременно,
+(например, вычисления или обработка нескольких запросов).
+
+EXECTORSERICE и EXECUTORS, обеспечивают удобный и эффективный способ управления потоками.
+
+2.2 Пул потоков
+
+Пул потоков — это группа потоков, которые повторно используються.
+Это позволяет избежать затрат на создание и уничтожение потоков для каждой задачи.
+
+Использование пула потоков помогает:
+- Перераспределять потоки для выполнения задач
+- Управление потоками: Пул потоков упрощает управление множественными потоками.
+- Контроль за ресурсами: Ограничивая количество потоков в пуле, можно предотвратить перегрузку системы.
+- Производительность: Когда потоки заранее создаются и используются повторно, это значительно ускоряет выполнение задач
+
+2.3 ExecutorService и Executors
+
+ExecutorService — это интерфейс для управления пулами потоков и выполнения задач асинхронно.
+ Он предоставляет методы для планирования, управления и завершения потоков.
+
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+
+        Callable<Integer> task = () -> {
+            Thread.sleep(1000);
+            return 42;
+        };
+
+        Future<Integer> future = executorService.submit(task);
+
+        Integer result = future.get();  // Блокирует, пока задача не завершится
+        System.out.println("Результат выполнения задачи: " + result);
+
+        executorService.shutdown();
+
+- `submit()`: Позволяет выполнить задачу асинхронно.
+- `invokeAll()`: Выполняет набор задач и блокирует до их завершения.
+- `invokeAny()`: Выполняет несколько задач и блокирует до завершения хотя бы одной задачи.
+- `shutdown()`: Останавливает ExecutorService после завершения всех текущих задач.
+
+
+`Executors` — это вспомогательный класс, который предоставляет методы для создания различных типов пулов потоков.
+
+1. newFixedThreadPool(int n)
+   ExecutorService executor = Executors.newFixedThreadPool(3);
+
+   for (int i = 0; i < 5; i++) {
+       executor.submit(() -> {
+           System.out.println(Thread.currentThread().getName() + " выполняет задачу");
+       });
+   }
+
+   executor.shutdown();
+
+
+2. `newCachedThreadPool()`:
+      ExecutorService executor = Executors.newCachedThreadPool();
+
+   for (int i = 0; i < 5; i++) {
+       executor.submit(() -> {
+           System.out.println(Thread.currentThread().getName() + " выполняет задачу");
+       });
+   }
+
+   executor.shutdown();
+
+
