@@ -14,19 +14,13 @@ public class Main {
         Thread writer = new Thread(new QueueWriterThread(queue, outputFile));
 
         try {
-            // Запускаем поток записи
             writer.start();
 
-            // Читаем первый файл
             new FileReaderThread(firstInput, queue).run();
-
-            // Читаем второй файл
             new FileReaderThread(secondInput, queue).run();
 
-            // Гарантированно добавляем маркер завершения
             queue.put("EOF");
 
-            // Ожидаем завершения потока записи
             writer.join();
 
             System.out.println("Data successfully written to " + outputFile);
