@@ -1,0 +1,76 @@
+Класс ArrayList, LinkedList. Основные реализации. Как работают вставка, удаление, поиск элемента на примере реализаций.
+
+ArrayList - массив (вектор плюсы).
+
+Поиск элемента осушествлятся за О(1)
+
+ public E get(int index) {
+        Objects.checkIndex(index, size);
+        return elementData(index);
+    }
+
+Вставка( в середину за О(n), in the end ammortized O(n))
+
+Если памяти для вставки элемента недостаточно вызывается метод
+private Object[] grow(int minCapacity) {
+        int oldCapacity = elementData.length;
+        if (oldCapacity > 0 || elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA) {
+            int newCapacity = ArraysSupport.newLength(oldCapacity,
+                    minCapacity - oldCapacity, /* minimum growth */
+                    oldCapacity >> 1           /* preferred growth */);
+            return elementData = Arrays.copyOf(elementData, newCapacity);
+        } else {
+            return elementData = new Object[Math.max(DEFAULT_CAPACITY, minCapacity)];
+        }
+    }
+
+Delete - удаление из массива из середины - начала О(n), из конца О(1)
+
+private void fastRemove(Object[] es, int i) {
+        modCount++;
+        final int newSize;
+        if ((newSize = size - 1) > i)
+            System.arraycopy(es, i + 1, es, i, newSize - i);
+        es[size = newSize] = null;
+    }
+
+LinkedList - список двусвязный
+Вставка, удаление элемента из списка за О(1)
+Поиск элемента в списке за О(n)
+
+delete ->
+E unlink(Node<E> x) {
+        // assert x != null;
+        final E element = x.item;
+        final Node<E> next = x.next;
+        final Node<E> prev = x.prev;
+
+        if (prev == null) {
+            first = next;
+        } else {
+            prev.next = next;
+            x.prev = null;
+        }
+
+        if (next == null) {
+            last = prev;
+        } else {
+            next.prev = prev;
+            x.next = null;
+        }
+
+        x.item = null;
+        size--;
+        modCount++;
+        return element;
+    }
+
+Search ->
+private void checkElementIndex(int index) {
+        if (!isElementIndex(index))
+            throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+    }
+
+
+1. Многопоточность. Ключевые слова volatile, synchronized. Методы notify, notifyAll, wait.
+Многопоточность --
