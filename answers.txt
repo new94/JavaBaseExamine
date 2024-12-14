@@ -1,0 +1,200 @@
+Билет 15 Чернышева
+
+Коллекции Java. Иерархия классов и интерфейсов для коллекций. Примеры.
+
+Основной интерфейс для коллекций - Collection(он наследуется от интерфейса Iterable, что позволяет
+перебирать элементы коллекции)
+Интерфейс Collection делится на три основных подинтерфейса: List, Set и Queue.
+
+Map - отдельная коллекция(ключ - значение) которая не наследуется от Collection причём ключи должны быть уникальными.
+ Примеры реализации: HashMap (построено на основе хэширования), TreeMap (построено на кч и упорядочено по ключам),
+  LinkedHashMap (позволяет сохранять порядок добавления элементов).
+
+
+List представляет упорядоченную коллекцию, которая может содержать дубликаты.
+Реализациями этого интерфейса являются классы ArrayList, LinkedList, Vector, Stack.
+ArrayList-Динамический массив
+LinkedList-двусвязный список
+Vector-устаревший динамический массив
+Stack-реализация стека
+
+
+Set – коллекция, которая не содержит дубликатов.
+Примеры реализации: HashSet, LinkedHashSet, TreeSet.
+HashSet- реализация на основе хэширования.
+LinkedHashSet-HashSet с сохранением порядка добавления элементов
+TreeSet- упорядоченный `Set` на основе кч дерева
+
+
+Queue используется для хранения элементов в порядке их обработки.
+ Примеры реализации: PriorityQueue, LinkedList.
+PriorityQueue-Приоритетная очередь
+LinkedList-также реализует интерфейс `Queue`.
+
+
+Интерфейс Deque расширяет возможности Queue,
+позволяя добавлять и удалять элементы с обоих концов очереди.
+
+
+примеры:
+List:
+	List<String> list = new ArrayList<>();
+        list.add("Apple");
+        list.add("Microsoft");
+        list.add("Google");
+        list.add("Microsoft");
+
+        System.out.println("Список: " + list);
+
+        // Доступ по индексу
+        System.out.println("Элемент на индексе 1: " + list.get(1));
+Set:
+	Set<String> set = new HashSet<>();
+        set.add("Apple");
+        set.add("Microsoft");
+        set.add("Google");
+        set.add("Microsoft"); // Игнорируется, дубли не допускаются
+
+        System.out.println("Множество: " + set);
+Queue:
+	Queue<Integer> queue = new PriorityQueue<>();
+        queue.add(30);
+        queue.add(10);
+        queue.add(20);
+
+        System.out.println("Очередь: " + queue);
+
+        // Получить и удалить элемент
+        System.out.println("Удаленный элемент: " + queue.poll());
+        System.out.println("Очередь после удаления: " + queue);
+
+Map:
+	Map<String, Integer> map = new HashMap<>();
+        map.put("Apple", 1);
+        map.put("Microsoft", 2);
+        map.put("Google", 3);
+
+        System.out.println("Карта: " + map);
+
+        // Получение значения по ключу
+        System.out.println("Значение ключа 'Google': " + map.get("Google"));
+
+
+
+
+Сетевое взаимодействие клиент-сервер в Java. Основные классы и методы для работы с сетью.
+
+Классы и их предназначение:
+1) Socket
+Объявляется на стороне клиента, а сервер воссоздаёт его, получая сигнал на подключение.
+Socket(String name_host, int port) throws UnknownHostException, IOException
+Socket(InetAddress IP, int port) throws UnknownHostException
+----
+InetAddress представляет IP-адрес хоста (локального или удаленного).
+   - Основные методы:
+     - getByName(String host): возвращает объект InetAddress для указанного имени хоста
+     - getHostAddress(): возвращает IP адрс в виде строки
+-----
+
+name_host — определённый узел сети, ip-адрес.
+ Если класс сокета не смог преобразовать его в реальный, существующий, адрес, то сгенерируется исключение UnknownHostException.
+
+port — если в качестве номера порта будет указан 0, то система сама выделит свободный порт.
+ Также при потере соединения может произойти исключение IOException.
+
+
+самые часто используемые методы класса Socket:
+
+InetAddress getInetAddress() – возвращает объект содержащий данные о сокете. В случае если
+сокет не подключен – null
+int getPort() – возвращает порт по которому происходит соединение с сервером
+int getLocalPort() – возвращает порт к которому привязан сокет
+boolean isConnected() – возвращает true, если соединение установлено
+void connect(SocketAddress адрес) – указывает новое соединение
+boolean isClosed() – возвращает true, если сокет закрыт
+boolean isBound() - возвращает true, если сокет действительно привязан к адресу
+
+Класс Socket реализует интерфейс AutoCloseable, поэтому его можно использовать в конструкции try-with-resources.
+закрыть сокет также можно с помощью close().
+
+
+
+2) ServerSocket
+   Используется для создания серверного приложения, которое ожидает входящих подключений клиентов
+ServerSocket() throws IOException
+ServerSocket(int port) throws IOException
+ServerSocket(int port, int _max_count) throws IOException
+ServerSocket(int port, int max_count, InetAddress local_address) throws IOException
+
+max_count - максимум соединений, принимаемых сервером при работе. Если оно не указано,
+то умолчанию это число будет считаться равным 50
+
+Основной метод:
+   accept(): Слушает и принимает входящее соединение, возвращая объект Socket.
+
+чтобы создать соединение: создать объект типа Socket на стороне клиента и воссоздать его с помощью ServerSocket на стороне сервера
+
+
+потоки для общения:
+(чтобы не читать голые байты они обернуты в классы-адаптеры)
+BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+
+можно еще через потоки сокета:
+ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+
+
+пример клиент-серверного приложения:
+
+сначала нужно запускать сервер:
+
+public class Server {
+    public static void main(String[] args) {
+        int port = 12345; // номер порта
+
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
+            System.out.println("сервер: жду подключения");
+
+            // ждем клиента
+            Socket clientSocket = serverSocket.accept();
+            System.out.println("Клиент подключен: " + clientSocket.getInetAddress());
+
+            // потоки для взаимодействия
+            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+//чтобы постояннно не вызывать flush() у BufferedWriter - воспользуемся PrintWriter и преедадим true и тогда выталкивание из буфера будет происходить автоматически
+
+            String message = in.readLine();
+            System.out.println("Клиент отправил: " + message);
+
+            // oтвет клиенту
+            out.println("Привет, клиент!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+Теперь код на стороне клиента:
+public class Client {
+    public static void main(String[] args) {
+        String host = "localhost"; // адрес сервера
+        int port = 12345; // номер порта
+
+        try (Socket socket = new Socket(host, port)) {
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            // отправляем серверу
+            out.println("Привет, сервер!");
+
+            // получаем ответ от сервера
+            String response = in.readLine();
+            System.out.println("Сервер ответил: " + response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
