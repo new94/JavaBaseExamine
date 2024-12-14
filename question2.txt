@@ -1,0 +1,205 @@
+Вопрос 2
+Условные операторы(if/else,switch). Операторы циклов (while,do/while,for,foreach,StreamAPI forEach).
+Интерфейсы Comparable, Comparator. Iterable, Iterator.
+
+1) if-else
+
+псевдокод:
+if (condition) {
+    // ...
+} else {
+    // ...
+}
+
+пример:
+if (3 * 5 == 15) {
+    System.out.println("Condition is true.");
+} else {
+    System.out.println("Condition is false.");
+}
+
+2) switch
+
+псевдокод:
+switch(expression) {
+  case value1:
+     // Statements
+     break;
+
+  case value2:
+     // Statements
+     break;
+     ....
+     ....
+     ....
+   default:
+     // default statement
+}
+
+пример:
+int day = 4;
+switch (day) {
+    case 1:
+        System.out.println("Monday");
+        break;
+    case 2:
+        System.out.println("Tuesday");
+        break;
+    case 3:
+        System.out.println("Wednesday");
+        break;
+    case 4:
+        System.out.println("Thursday");
+        break;
+    case 5:
+        System.out.println("Friday");
+        break;
+    case 6:
+        System.out.println("Saturday");
+        break;
+    case 7:
+        System.out.println("Sunday");
+        break;
+    default:
+        System.out.println("Incorrect data");
+}
+
+для данной конструкции есть определенные правила, такие как:
+- нельзя иметь дублирующиеся значения case
+- значения case должны быть константами или литералами того же типа что и в выражении switch
+- хоть и оператор break необязателен, все-таки его нужно использовать дабы предотвратить fall-through к следующему case
+- блок default также необязателен; он выполняется  когда ни одно значение case не соответствует выражению
+
+выражение switch работает с:
+- примитивными типами
+- обертками
+- перечислениями
+- записями
+- строками
+
+3) оператор while
+- выполняет блок пока условие истинно
+пример:
+int i = 0;
+while (i < 5) {
+    System.out.println("i = " + i);
+    i++;
+}
+
+4) оператор do while
+- выполняет содержимое блока хотя бы один раз, даже если условие ложно
+пример:
+int i = 0;
+do {
+    System.out.println("i = " + i);
+    i++;
+} while (i < 5);
+
+
+5) оператор for
+- нужен для выполнения действий когда известно кол-во операций
+
+псевдокод:
+
+пример:
+for (int i = 0; i < 5; i++) {
+    System.out.println("i = " + i);
+}
+
+6) оператор foreach
+- упрощенная версия цикла for для работы с коллекциями
+
+пример:
+int[] numbers = {1, 2, 3, 4, 5};
+for (int number : numbers) {
+    System.out.println(number);
+}
+
+7) StreamAPI forEach
+- позволяет нам выполнить дейтсвие для каждого элемента потока
+
+пример:
+List<String> names = Arrays.asList("Vika", "Ida", "Sonya");
+names.stream().forEach(name -> System.out.println(name));
+
+8) Comparable
+- интерфейс который позволяет нам сортировать объекты класса в ествественном виде
+важно что класс, реализующий интерфейс Comparable сравнивает себя с другими объектами
+
+пример:
+class Person implements Comparable<Person> {
+    String name;
+    int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public int compareTo(Person other) {
+        return Integer.compare(this.age, other.age);
+    }
+}
+
+List<Person> people = Arrays.asList(
+    new Person("Vika", 19),
+    new Person("Ida", 21),
+    new Person("Hitchhiker", 42)
+);
+
+Collections.sort(people);
+
+9) Comparator
+- также интерфейс, который позволяет сортировать коллекции; отличие его от Comparable в том что он не
+обязательно должен быть реализован в исходном классе, его реализацию можно вынести отдельно
+
+Comparator<Person> compareByName = (p1, p2) -> p1.name.compareTo(p2.name);
+Collections.sort(people, compareByName);
+
+10) Iterable
+java.lang.Iterable<T>
+-интерфейс стандартной библиотеки Java; обеспечивает возможность использования
+объекта в цикле for-each
+- реализует метод iterator
+
+пример:
+class MyCollection<T> implements Iterable<T> {
+    private List<T> items = new ArrayList<>();
+
+    public void add(T item) {
+        items.add(item);
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return items.iterator();
+    }
+}
+
+MyCollection<Integer> collection = new MyCollection<>();
+collection.add(1);
+collection.add(2);
+
+for (int item : collection) {
+    System.out.println(item);
+}
+
+
+11) Iterator
+java.util.Iterator<T>
+- интерфейс, описывающий свойства итератора
+
+содержит методы
+next() — возвращает значение следующего элемента и продвигает итератор на один шаг вперед
+hasNext() — возвращает true, если в коллекции есть еще непройденные элементы, и false, если элементы закончились
+remove() — удаляет последний возвращенный элемент, предоставленный методом next(). Вызывать этот метод можно
+только один раз после каждого вызова next().
+
+пример:
+List<Integer> numbers = Arrays.asList(2, 5, 42, 84);
+Iterator<Integer> iterator = numbers.iterator();
+
+while (iterator.hasNext()) {
+    System.out.println(iterator.next());
+}
