@@ -6,7 +6,6 @@ public class Person {
     private String gender;
     private String phoneNumber;
 
-    // Getters и setters
 
     public String getFullName() {
         return fullName;
