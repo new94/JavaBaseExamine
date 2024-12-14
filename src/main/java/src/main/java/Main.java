@@ -37,6 +37,7 @@ public class Main {
             .filter(person -> person.getName().startsWith("A"))
             .collect(Collectors.toList()));
 
+
     try {
       List<Person> result = future.get();
       for (Person person : result) {
