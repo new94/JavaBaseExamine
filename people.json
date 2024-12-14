@@ -1,0 +1,26 @@
+[
+  {
+    "fullName": "Arnamonova Viktoria",
+    "age": 30,
+    "gender": "Female",
+    "phoneNumber": "89165673498"
+  },
+  {
+    "fullName": "Ivanin Ivan",
+    "age": 22,
+    "gender": "Male",
+    "phoneNumber": "89647824591"
+  },
+  {
+    "fullName": "Artemov Cirill",
+    "age": 25,
+    "gender": "Male",
+    "phoneNumber": "89034561293"
+  },
+  {
+    "fullName": "Antonov Ilya",
+    "age": 17,
+    "gender": "Male",
+    "phoneNumber": "89068298414"
+  }
+]
